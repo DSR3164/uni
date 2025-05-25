@@ -8,6 +8,5 @@ set grid
 set key top left
 set mxtics
 set format x "%6.0f"
-set logscale y
 plot "bres1" using 1:2 title "Binary Search Tree" with linespoints ls 1, \
 "hres1" using 1:2 title "Hash Table" with linespoints ls 2

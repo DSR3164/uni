@@ -57,7 +57,7 @@ bool is_date_exist(data found) { //Функция для проверки дат
 
 int find_and_write_dates(char *filename) { // Функция для поиска и записи дат в файл
     data Age;
-    int count, count1, max, inyear;
+    int count = 0, count1 = 0, max = 0, inyear = 0;
     FILE *file = fopen(filename, "w");
     if (file == NULL) {
         fprintf(stderr, "Ошибка при открытии файла %s для записи.\n", filename);
