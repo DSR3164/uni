@@ -11,9 +11,9 @@ double ln(double x, int n) {
 }
 
 int main() {
-    for (double i = 0; i<=2.1; i += 0.1){
+    for (double i = 0.1; i<=2.1; i += 0.1){
         double lnX = ln(i, 1);
-        printf("ln(%f) = %f\n", i, lnX);
+        printf("ln(%.1f) = %f\n", i, lnX);
     }
 
     return 0;
