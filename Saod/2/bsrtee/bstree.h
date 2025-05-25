@@ -2,7 +2,7 @@
 #include <string>
 #include <iostream>
 #include <sys/time.h>
-#include <cstdint>
+#include <chrono>
 
 using namespace std;
 
@@ -39,14 +39,14 @@ public:
             }
         }
 
-        bstree* newbstree = new bstree(key, value);
+        bstree* newNode = new bstree(key, value);
 
         if (parent == nullptr)
-            tree = newbstree;
+            tree = newNode;
         else if (strcmp(key.c_str(), parent->key) < 0)
-            parent->left = newbstree;
+            parent->left = newNode;
         else
-            parent->right = newbstree;
+            parent->right = newNode;
     }
 
     bstree* bstree_delete(bstree*& tree, const string& key) {
@@ -71,7 +71,7 @@ public:
                 tree = tree->left;
                 delete temp;
             } else {
-                bstree* min_right_subtree = bstree_min(tree->right);
+                bstree* min_right_subtree = tree_min(tree->right);
                 delete[] tree->key;
                 tree->key = new char[strlen(min_right_subtree->key) + 1];
                 strcpy(tree->key, min_right_subtree->key);
@@ -98,14 +98,14 @@ public:
         return nullptr;
     }
 
-    bstree* bstree_min(bstree* tree) {
+    bstree* tree_min(bstree* tree) {
         while (tree->left != nullptr) {
             tree = tree->left;
         }
 
         return tree;
     }
-    bstree* bstree_max(bstree* tree){
+    bstree* tree_max(bstree* tree){
         while(tree->right != nullptr){
             tree = tree->right;
         }
@@ -113,3 +113,12 @@ public:
         return tree;
     }
 };
+
+int getrand(int min, int max) {
+    return min + rand() % (max - min + 1);
+}
+double wtime() {
+    auto now = std::chrono::high_resolution_clock::now();
+    auto duration = now.time_since_epoch();
+    return std::chrono::duration_cast<std::chrono::duration<double>>(duration).count();
+}

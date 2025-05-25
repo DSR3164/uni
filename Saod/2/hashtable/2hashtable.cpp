@@ -1,38 +1,37 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
-#include <sys/time.h>
+#include "iomanip"
 #include "hashtable.h"
-#include <iomanip>
-#include <cstdint>
 
 using namespace std;
 
 int main() {
-    uint32_t max_n = 200000; // Максимальное число элементов n
+    ifstream file("words.txt");
+    if (!file.is_open()) {
+        cerr << "Failed to open file." << endl;
+        return 1;
+    }
+
     HashTable hashtab;
+    uint32_t table_size = 200000;
 
-    // Инициализация хеш-таблицы
-    hashtab_init(hashtab, max_n);
+    hashtab_init(hashtab, table_size);
 
-    // Вывод заголовка таблицы
-    cout << "Количество элементов в словаре\tВремя выполнения функции hashtab_lookup, с" << endl;
+    vector<string> words;
+    string word;
+    while (file >> word) {
+        words.push_back(word);
+    }
+    file.close();
 
-    // Измерение времени выполнения операции поиска для каждого n
-    for (uint32_t i = 1; i <= max_n; ++i) {
-        string word = "word_" + to_string(i);
+    for (int i = 0; i < 200000; ++i) {
+        double tAdd = wtime();
+        hashtab_add(hashtab, words[i], i);
+        tAdd = wtime() - tAdd;
 
-        // Заполнение хеш-таблицы
-        hashtab_add(hashtab, word, i);
-
-        // Если i кратно 10000, измеряем время выполнения операции поиска
-        if (i % 10000 == 0) {
-            double t_hash = wtime();
-            hashtab_lookup(hashtab, word);
-            t_hash = wtime() - t_hash;
-
-            // Вывод количества элементов и времени выполнения
-            cout << "n=" << setw(7) << left << i << "time=" << setw(9) << left  << fixed << setprecision(9) << t_hash<< endl;
-        }
+        if ((i + 1) % 10000 == 0)
+            cout << setw(10) << left << i + 1 << setw(10) << left << fixed << setprecision(12) << tAdd << endl;
     }
 
     return 0;
