@@ -5,7 +5,6 @@
 #include <cstring>
 #include <sys/time.h>
 #include "bstree.h"
-#include "../RandTime.h"
 #include "iomanip"
 
 using namespace std;

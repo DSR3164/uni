@@ -5,15 +5,12 @@
 #include <cstring>
 #include <sys/time.h>
 #include "bstree.h"
-#include "../RandTime.h"
 #include "iomanip"
 
 using namespace std;
 
 int main() {
-    fstream outputFile("C:\\Users\\Denis\\Downloads\\Telegram Desktop\\saod\\Lab2\\opf.txt", ios::out);
-    fstream outputFile2("C:\\Users\\Denis\\Downloads\\Telegram Desktop\\saod\\Lab2\\opf2.txt", ios::out);
-    ifstream file("C:\\Users\\Denis\\Downloads\\Telegram Desktop\\saod\\Lab2\\random_strings.txt");
+    ifstream file("words.txt");
     if (!file.is_open()) {
         cerr << "Failed to open file." << endl;
         return 1;
@@ -28,7 +25,7 @@ int main() {
 
     bstree* tree = nullptr;
 
-    for (int i = 1; i <= 700000; ++i) {
+    for (int i = 1; i <= 200000; ++i) {
         if(tree == nullptr) {
             tree = new bstree(words[i - 1], i - 1);
         } else {
@@ -37,12 +34,15 @@ int main() {
 
         if (i % 10000 == 0) {
             string w = words[getrand(0, i - 1)];
-            double t = wtime();
-            tree->bstree_add(tree, words[i+2], i + 2);
-            t = wtime() - t;
-            // cout << "n=" << setw(7) << left << i << "time=" << setw(12) << left  << fixed << setprecision(9) << t << "word=" <<w<< endl;
-            outputFile2 << i << "    "<< fixed << setprecision(13)<<t<< endl;
+
+            // Измерение времени выполнения функции add
+            double tAdd = wtime();
+            tree->bstree_add(tree, w, i);
+            tAdd = wtime() - tAdd;
+
+            cout << setw(7) << left << i << setw(10) << left << fixed << setprecision(7) << left << tAdd << endl;
         }
     }
+
     return 0;
 }
