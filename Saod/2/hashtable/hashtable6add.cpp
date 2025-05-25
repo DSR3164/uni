@@ -23,11 +23,11 @@ int main() {
     }
     file.close();
     
-    hashtab_init(hashtab_kr, table_size); // Инициализация хэш-таблицы для kr_hash
+    hashtab_init(hashtab_kr, table_size); // Инициализация хэш-таблицы для kr
     hashtab_init(hashtab_add, table_size); // Инициализация хэш-таблицы для fnv
         uint32_t collisions_kr = 0, collisions_fnv = 0;
     for (int i = 0; i < 200000; ++i) {
-    choosehashtab_add(hashtab_kr, words[i], i, kr_hash, collisions_kr); // Добавление слова в хэш-таблицу для kr_hash
+    choosehashtab_add(hashtab_kr, words[i], i, kr_hash, collisions_kr); // Добавление слова в хэш-таблицу для kr
     choosehashtab_add(hashtab_add, words[i], i, fnv, collisions_fnv); // Добавление слова в хэш-таблицу для fnv
     if ((i + 1) % 10000 == 0) {
         string w;

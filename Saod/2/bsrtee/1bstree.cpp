@@ -10,9 +10,7 @@
 using namespace std;
 
 int main() {
-    fstream outputFile("C:\\Users\\Denis\\Downloads\\Telegram Desktop\\saod\\Lab2\\opf.txt", ios::out);
-    fstream outputFile2("C:\\Users\\Denis\\Downloads\\Telegram Desktop\\saod\\Lab2\\opf2.txt", ios::out);
-    ifstream file("C:\\Users\\Denis\\Downloads\\Telegram Desktop\\saod\\Lab2\\res.txt");
+    ifstream file("words.txt");
     if (!file.is_open()) {
         cerr << "Failed to open file." << endl;
         return 1;
@@ -39,8 +37,8 @@ int main() {
             double t = wtime();
             bstree* bstree = tree->bstree_lookup(tree, w);
             t = wtime() - t;
-            // cout << "n=" << setw(7) << left << i << "time=" << setw(12) << left  << fixed << setprecision(9) << t << "word=" <<w<< endl;
-            outputFile << i << "    "<< fixed << setprecision(9) <<t<< endl;
+            cout << "n=" << setw(7) << left << i << "time=" << setw(12) << left  << fixed << setprecision(9) << t << "word=" <<w<< endl;
+            //outputFile << i << "    "<< fixed << setprecision(9) <<t<< endl;
         }
     }
     return 0;

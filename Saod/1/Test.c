@@ -19,49 +19,17 @@ void swap(uint32_t *xp, uint32_t *yp) {
     *yp = temp;
 }
 
-void bubbleSort(uint32_t arr[], int n) {
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = 0; j < n - i - 1; j++) {
-            if (arr[j] > arr[j + 1]) {
-                swap(&arr[j], &arr[j + 1]);
-            }
-        }
-    }
-}
-
-void countingSort(uint32_t arr[], int n) {
-    uint32_t max = arr[0];
-    for (int i = 1; i < n; i++) {
-        if (max < arr[i]) {
-            max = arr[i];
-        }
-    }
-
-    uint32_t count[max + 1];
-    for (int i = 0; i <= max; i++) {
-        count[i] = 0;
-    }
-
-    for (int i = 0; i < n; i++) {
-        count[arr[i]]++;
-    }
-
-    int index = 0;
-    for (int i = 0; i <= max; i++) {
-        while (count[i] > 0) {
-            arr[index] = i;
-            index++;
-            count[i]--;
-        }
-    }
-}
 
 void merge(uint32_t arr[], int left, int mid, int right) {
     int i, j, k;
     int n1 = mid - left + 1;
     int n2 = right - mid;
 
-    uint32_t L[n1], R[n2];
+
+    //uint32_t L[n1], R[n2];
+
+    uint32_t *L = (uint32_t*)malloc(n1 * sizeof(uint32_t));
+    uint32_t *R = (uint32_t*)malloc(n2 * sizeof(uint32_t));
 
     for (i = 0; i < n1; i++)
         L[i] = arr[left + i];
@@ -106,38 +74,24 @@ void mergeSort(uint32_t arr[], int left, int right) {
     }
 }
 
-int main() {
-    printf("Elements\tBubbleSort\tCountingSort\tMergeSort\n");
-    for (int n = 50000; n <= 1000000; n = n + 50000){
-        uint32_t *arr_bubble = malloc(n * sizeof(uint32_t));
-        uint32_t *arr_counting = malloc(n * sizeof(uint32_t));
-        uint32_t *arr_merge = malloc(n * sizeof(uint32_t));
 
-        double tBubble, tCounting, tMerge;
+int main() {
+    printf("Elements MergeSort\n");
+    for (int n = 50000; n <= 1000000; n = n + 50000){
+        uint32_t *arr_merge = (uint32_t*)malloc(sizeof(uint32_t) * n);
+
+        double tMerge;
 
         for (int i = 0; i < n; i++) {
-            arr_bubble[i] = arr_counting[i] = arr_merge[i] = getrand(1, 100000);
+            arr_merge[i] = getrand(1, 100000);
         }
 
-        // Bubble Sort
         double start_time = wtime();
-        //bubbleSort(arr_bubble, n);
-        tBubble = wtime() - start_time;
-
-        // Counting Sort
-        start_time = wtime();
-        countingSort(arr_counting, n);
-        tCounting = wtime() - start_time;
-
-        // Merge Sort
-        start_time = wtime();
         mergeSort(arr_merge, 0, n - 1);
         tMerge = wtime() - start_time;
 
-        printf("%d\t\t%f\t%f\t%f\n", n, tBubble, tCounting, tMerge);
+        printf("%d\t\t%f\n", n, tMerge);
 
-        free(arr_bubble);
-        free(arr_counting);
         free(arr_merge);
     }
     return 0;
