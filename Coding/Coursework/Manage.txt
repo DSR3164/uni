@@ -1,0 +1,5 @@
+gcc -c dt.c
+gcc -c -fPIC functions.c
+gcc -shared -o libfunctions.so functions.o
+gcc -o dyn dt.o -L. -lfunctions -Wl,-rpath,.
+./dyn output.txt

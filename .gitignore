@@ -8,3 +8,4 @@ Dis
 *.png
 *.txt
 *.exe
+!Manage.txt
