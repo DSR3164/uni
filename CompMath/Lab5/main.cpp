@@ -2,6 +2,8 @@
 #include<iomanip>
 #include<cmath>
 #include<functional>
+#include <chrono>
+using namespace std::chrono;
 
 using namespace std;
 
@@ -12,9 +14,10 @@ double f(double x) {
 double integrate_rect(double a, double b, int N, function<double(double)> func) {
     double h = (b - a) / N;
     double sum = 0.0;
+    double base = a + h * 0.5;
     for (int i = 0; i < N; ++i) {
-        double x = a + (i + 0.5) * h;
-        sum += func(x);
+        sum += func(base);
+        base+=h;
     }
     return sum * h;
 }
@@ -34,6 +37,7 @@ int main() {
     int N = 1;
     double I_N = integrate_rect(a, b, N, f);
     double I_2N;
+    auto start = high_resolution_clock::now();
 
     do {
         N *= 2;
@@ -43,10 +47,13 @@ int main() {
         }
         I_N = I_2N;
     } while (true);
+    auto end = high_resolution_clock::now();
+    auto elapsed = duration_cast<microseconds>(end - start).count();
 
     cout << "Приближённое значение интеграла I = "
               << setprecision(15) << I_2N << "\n";
     cout << "Использовано разбиений N = " << N << "\n";
+    cout << "Время выполнения: " << elapsed << endl;
 
     return 0;
 }
